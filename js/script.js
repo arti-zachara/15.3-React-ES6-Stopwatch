@@ -14,7 +14,7 @@ class Stopwatch extends React.Component {
   }
 
   // method: reset counters
-  reset = () => {
+  reset() {
     this.setState({
       times: {
         minutes: 0,
@@ -22,10 +22,10 @@ class Stopwatch extends React.Component {
         miliseconds: 0
       }
     });
-  };
+  }
 
   // method: format the timer display according to the template 00:00:00 /m:s:ms
-  format = () => {
+  format() {
     let minutes = this.state.times.minutes;
     let seconds = this.state.times.seconds;
     let miliseconds = this.state.times.miliseconds;
@@ -33,34 +33,34 @@ class Stopwatch extends React.Component {
     return `${this.pad0(minutes)}:${this.pad0(seconds)}:${this.pad0(
       Math.floor(miliseconds)
     )}`;
-  };
+  }
 
   //method: formatting the numbers : add 0 in the front of the number if the value has less than 2 digits
-  pad0 = value => {
+  pad0(value) {
     let result = value.toString();
     if (result.length < 2) {
       result = "0" + result;
     }
     return result;
-  };
+  }
 
   // method: start if it is not running and count (step)
-  start = () => {
+  start() {
     if (!this.state.running) {
       this.state.running = true;
       this.watch = setInterval(() => this.step(), 10);
     }
-  };
+  }
 
   // method: step - triggers calculate and print if the stopwatch is running
-  step = () => {
+  step() {
     if (!this.state.running) return;
     this.calculate();
     // this.print();
-  };
+  }
 
   // method: calculate time to m/s/ms adding each time 1 ms
-  calculate = () => {
+  calculate() {
     this.setState({
       times: { miliseconds: this.state.times.miliseconds + 1 }
     });
@@ -81,36 +81,36 @@ class Stopwatch extends React.Component {
         }
       });
     }
-  };
+  }
   // method: stop - stops the count and clears interval
-  stop = () => {
+  stop() {
     this.setState({
       running: false
     });
     clearInterval(this.watch);
-  };
+  }
 
   // method: reset watch display count
-  resetWatch = () => {
+  resetWatch() {
     this.stop();
     this.reset();
-  };
+  }
 
   // method: add a result
-  addResult = () => {
+  addResult() {
     let newResult = this.format();
     this.setState({
       results: [...this.state.results, newResult]
     });
-  };
+  }
   // method: clear results list
-  resetResults = () => {
+  resetResults() {
     this.setState({
       results: []
     });
-  };
+  }
   // render the app
-  render = () => {
+  render() {
     return (
       <div className={"container"}>
         <nav>
@@ -163,7 +163,7 @@ class Stopwatch extends React.Component {
         </ul>
       </div>
     );
-  };
+  }
 }
 // ----------------------- Stopwatch Class end ----------------------------------
 
