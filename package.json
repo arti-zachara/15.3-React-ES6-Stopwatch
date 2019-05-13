@@ -1,0 +1,59 @@
+{
+  "name": "15.3",
+  "version": "1.0.0",
+  "description": "Kodilla task 15.7 -ES6 React Stopwatch",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm-run-all test:js test:index",
+    "test:index": "html-validator --file=index.html --verbose",
+    "test:js": "jshint",
+    "init-project": "npm install && npm-run-all init:*",
+    "init:dirs": "mkdirp sass css vendor images js",
+    "init:files": "touch index.html sass/style.scss js/script.js",
+    "init:gitignore": "curl https://raw.githubusercontent.com/github/gitignore/master/Node.gitignore -o .gitignore",
+    "build": "npm-run-all build:* test",
+    "build:clean": "rimraf css/*.css",
+    "build:sass": "node-sass --output-style compact -o css sass",
+    "build:autoprefixer": "autoprefixer-cli css/style.css",
+    "build-dev:sass": "node-sass --output-style expanded --source-map true -o css sass",
+    "watch": "npm-run-all build -p watch:*",
+    "watch:sassprefixer": "onchange -d 100 sass/style.scss -- npm-run-all -p sassprefixer:*",
+    "watch:browsersync": "browser-sync start --server --files css/*.css *.html",
+    "watch:babel": "babel js/script.js --watch --out-file js/script-compiled.js",
+    "sassprefixer:sass": "node-sass --output-style expanded --source-map true -o css sass",
+    "sassprefixer:autoprefixer": "autoprefixer-cli -o css/style.prefixed.css css/style.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arti-zachara/15.3-React-ES6-Stopwatch.git"
+  },
+  "keywords": [
+    "ES6",
+    "stopwatch",
+    "react"
+  ],
+  "author": "arti Zachara",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arti-zachara/15.3-React-ES6-Stopwatch/issues"
+  },
+  "homepage": "https://github.com/arti-zachara/15.3-React-ES6-Stopwatch#readme",
+  "devDependencies": {
+    "@babel/plugin-transform-react-jsx": "^7.3.0",
+    "autoprefixer-cli": "^1.0.0",
+    "babel-cli": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-latest": "^6.24.1",
+    "browser-sync": "^2.26.3",
+    "html-validator-cli": "^6.0.0",
+    "http-server": "^0.11.1",
+    "jshint": "^2.9.5",
+    "mkdirp": "^0.5.1",
+    "node-sass": "^4.11.0",
+    "npm-run-all": "^4.1.5",
+    "onchange": "^5.2.0",
+    "rimraf": "^2.6.3",
+    "sass-graph": "^3.0.4"
+  }
+}
