@@ -201,5 +201,5 @@ class Results extends React.Component {
 // ----------------------- Results Class end ----------------------------------
 
 // React DOM render
-var element = React.createElement(StopWatch);
+const element = React.createElement(StopWatch);
 ReactDOM.render(element, document.getElementById("app"));
