@@ -1,5 +1,5 @@
 // create stopwatch class
-class Stopwatch extends React.Component {
+class StopWatch extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -68,6 +68,7 @@ class Stopwatch extends React.Component {
     if (this.state.times.miliseconds >= 100) {
       this.setState({
         times: {
+          minutes: this.state.times.minutes,
           seconds: this.state.times.seconds + 1,
           miliseconds: 0
         }
@@ -77,7 +78,8 @@ class Stopwatch extends React.Component {
       this.setState({
         times: {
           minutes: this.state.times.minutes + 1,
-          seconds: 0
+          seconds: 0,
+          miliseconds: this.state.times.miliseconds
         }
       });
     }
@@ -113,7 +115,7 @@ class Stopwatch extends React.Component {
   render() {
     return (
       <div className={"container"}>
-        <nav>
+        <nav className={"controls"}>
           <a
             href={"#"}
             className={"button"}
@@ -158,9 +160,8 @@ class Stopwatch extends React.Component {
           </a>
         </nav>
         <Display display={this.format()} />
-        <ul className={"results"}>
-          <Results results={this.state.results} />
-        </ul>
+
+        <Results results={this.state.results} />
       </div>
     );
   }
@@ -172,14 +173,14 @@ class Display extends React.Component {
   constructor(props) {
     super(props);
   }
-  static propTypes = {
-    display: React.PropTypes.string.isRequired
-  };
 
   render() {
     return <div className={"stopWatch"}>{this.props.display}</div>;
   }
 }
+Display.propTypes = {
+  display: React.PropTypes.string.isRequired
+};
 // ----------------------- Display Class end ----------------------------------
 
 // Results class
@@ -187,19 +188,24 @@ class Results extends React.Component {
   constructor(props) {
     super(props);
   }
-  static propTypes = {
-    results: React.PropTypes.array.isRequired
-  };
 
   render() {
-    this.props.results.forEach(function(resultElement) {
-      <li>{resultElement}</li>;
-    });
+    return this.props.results === [] ? (
+      <ul className={"results"}>
+        {this.props.results.forEach(function(resultElement) {
+          <li>{resultElement}</li>;
+        })}
+      </ul>
+    ) : (
+      <div>No results added yet</div>
+    );
   }
 }
-
+Results.propTypes = {
+  results: React.PropTypes.array.isRequired
+};
 // ----------------------- Results Class end ----------------------------------
 
 // React DOM render
-const element = React.createElement(StopWatch);
+const element = <StopWatch />;
 ReactDOM.render(element, document.getElementById("app"));
