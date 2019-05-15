@@ -142,9 +142,6 @@ var StopWatch = function (_React$Component) {
       this.setState({
         results: [].concat(_toConsumableArray(this.state.results), [newResult])
       });
-
-      console.log(this.state.results);
-      return this.state.results;
     }
     // method: clear results list
 
@@ -285,13 +282,13 @@ var Results = function (_React$Component3) {
   _createClass(Results, [{
     key: "render",
     value: function render() {
-      return this.props.results == [] ? React.createElement(
+      return this.props.results.length > 0 ? React.createElement(
         "ul",
         { className: "results" },
-        this.props.results.forEach(function (resultElement) {
-          React.createElement(
+        this.props.results.map(function (resultElement, index) {
+          return React.createElement(
             "li",
-            null,
+            { key: index },
             resultElement
           );
         })

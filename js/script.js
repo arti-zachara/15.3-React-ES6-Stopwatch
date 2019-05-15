@@ -95,9 +95,6 @@ class StopWatch extends React.Component {
     this.setState({
       results: [...this.state.results, newResult]
     });
-
-    console.log(this.state.results);
-    return this.state.results;
   }
   // method: clear results list
   resetResults() {
@@ -185,10 +182,10 @@ class Results extends React.Component {
   }
 
   render() {
-    return this.props.results == [] ? (
+    return this.props.results.length > 0 ? (
       <ul className={"results"}>
-        {this.props.results.forEach(function(resultElement) {
-          <li>{resultElement}</li>;
+        {this.props.results.map(function(resultElement, index) {
+          return <li key={index}>{resultElement}</li>;
         })}
       </ul>
     ) : (
