@@ -12,7 +12,6 @@ class StopWatch extends React.Component {
       results: []
     };
   }
-
   // method: reset counters
   reset() {
     this.setState({
@@ -23,25 +22,12 @@ class StopWatch extends React.Component {
       }
     });
   }
-
   // method: format the timer display according to the template 00:00:00 /m:s:ms
   format() {
     let minutes = this.state.times.minutes;
     let seconds = this.state.times.seconds;
     let miliseconds = this.state.times.miliseconds;
-
-    return `${this.pad0(minutes)}:${this.pad0(seconds)}:${this.pad0(
-      Math.floor(miliseconds)
-    )}`;
-  }
-
-  //method: formatting the numbers : add 0 in the front of the number if the value has less than 2 digits
-  pad0(value) {
-    let result = value.toString();
-    if (result.length < 2) {
-      result = "0" + result;
-    }
-    return result;
+    return `${pad0(minutes)}:${pad0(seconds)}:${pad0(Math.floor(miliseconds))}`;
   }
 
   // method: start if it is not running and count (step)
@@ -62,7 +48,9 @@ class StopWatch extends React.Component {
   // method: calculate time to m/s/ms adding each time 1 ms
   calculate() {
     this.setState({
-      times: { miliseconds: this.state.times.miliseconds + 1 }
+      times: Object.assign(this.state.times, {
+        miliseconds: this.state.times.miliseconds + 1
+      })
     });
 
     if (this.state.times.miliseconds >= 100) {
@@ -101,15 +89,22 @@ class StopWatch extends React.Component {
   // method: add a result
   addResult() {
     let newResult = this.format();
+    console.log(newResult);
+    console.log(this.state.results);
+
     this.setState({
       results: [...this.state.results, newResult]
     });
+
+    console.log(this.state.results);
+    return this.state.results;
   }
   // method: clear results list
   resetResults() {
     this.setState({
       results: []
     });
+    console.log(this.state.results);
   }
   // render the app
   render() {
@@ -190,7 +185,7 @@ class Results extends React.Component {
   }
 
   render() {
-    return this.props.results === [] ? (
+    return this.props.results == [] ? (
       <ul className={"results"}>
         {this.props.results.forEach(function(resultElement) {
           <li>{resultElement}</li>;
@@ -205,6 +200,15 @@ Results.propTypes = {
   results: React.PropTypes.array.isRequired
 };
 // ----------------------- Results Class end ----------------------------------
+
+//function formatting the numbers : add 0 in the front of the number if the value has less than 2 digits
+function pad0(value) {
+  let result = value.toString();
+  if (result.length < 2) {
+    result = "0" + result;
+  }
+  return result;
+}
 
 // React DOM render
 const element = <StopWatch />;

@@ -30,7 +30,6 @@ var StopWatch = function (_React$Component) {
     };
     return _this;
   }
-
   // method: reset counters
 
 
@@ -45,7 +44,6 @@ var StopWatch = function (_React$Component) {
         }
       });
     }
-
     // method: format the timer display according to the template 00:00:00 /m:s:ms
 
   }, {
@@ -54,20 +52,7 @@ var StopWatch = function (_React$Component) {
       var minutes = this.state.times.minutes;
       var seconds = this.state.times.seconds;
       var miliseconds = this.state.times.miliseconds;
-
-      return this.pad0(minutes) + ":" + this.pad0(seconds) + ":" + this.pad0(Math.floor(miliseconds));
-    }
-
-    //method: formatting the numbers : add 0 in the front of the number if the value has less than 2 digits
-
-  }, {
-    key: "pad0",
-    value: function pad0(value) {
-      var result = value.toString();
-      if (result.length < 2) {
-        result = "0" + result;
-      }
-      return result;
+      return pad0(minutes) + ":" + pad0(seconds) + ":" + pad0(Math.floor(miliseconds));
     }
 
     // method: start if it is not running and count (step)
@@ -101,7 +86,9 @@ var StopWatch = function (_React$Component) {
     key: "calculate",
     value: function calculate() {
       this.setState({
-        times: { miliseconds: this.state.times.miliseconds + 1 }
+        times: Object.assign(this.state.times, {
+          miliseconds: this.state.times.miliseconds + 1
+        })
       });
 
       if (this.state.times.miliseconds >= 100) {
@@ -149,9 +136,15 @@ var StopWatch = function (_React$Component) {
     key: "addResult",
     value: function addResult() {
       var newResult = this.format();
+      console.log(newResult);
+      console.log(this.state.results);
+
       this.setState({
         results: [].concat(_toConsumableArray(this.state.results), [newResult])
       });
+
+      console.log(this.state.results);
+      return this.state.results;
     }
     // method: clear results list
 
@@ -161,6 +154,7 @@ var StopWatch = function (_React$Component) {
       this.setState({
         results: []
       });
+      console.log(this.state.results);
     }
     // render the app
 
@@ -291,7 +285,7 @@ var Results = function (_React$Component3) {
   _createClass(Results, [{
     key: "render",
     value: function render() {
-      return this.props.results === [] ? React.createElement(
+      return this.props.results == [] ? React.createElement(
         "ul",
         { className: "results" },
         this.props.results.forEach(function (resultElement) {
@@ -316,6 +310,15 @@ Results.propTypes = {
   results: React.PropTypes.array.isRequired
 };
 // ----------------------- Results Class end ----------------------------------
+
+//function formatting the numbers : add 0 in the front of the number if the value has less than 2 digits
+function pad0(value) {
+  var result = value.toString();
+  if (result.length < 2) {
+    result = "0" + result;
+  }
+  return result;
+}
 
 // React DOM render
 var element = React.createElement(StopWatch, null);
